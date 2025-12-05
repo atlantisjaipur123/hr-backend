@@ -26,7 +26,8 @@ async function loadRoutes(dir: string, base = '') {
       continue;
     }
 
-    if (!item.name.endsWith('.route.ts')) continue;
+    if (!item.name.match(/\.route\.(ts|js)$/)) continue;
+
 
     let routePath = cur
       .replace(/\.route\.ts$/i, '')
