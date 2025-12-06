@@ -1,7 +1,6 @@
 // src/routes/auth/login.route.ts  ← REPLACE ENTIRE FILE
 import { Router } from 'express';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from '../../lib/prisma.js';
 const router = Router();
 router.post('/', async (req, res) => {
     const { email, password } = req.body;
