@@ -1,8 +1,8 @@
 {
   "name": "hr-erp-backend",
   "version": "1.0.0",
+  "description": "HR ERP System Backend – Vercel Ready",
   "type": "module",
-  "description": "HR ERP System Backend – Fully Vercel Ready",
   "main": "api/index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
