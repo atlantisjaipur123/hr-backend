@@ -1,6 +1,6 @@
 // src/routes/company/setup/departments/[id].route.ts
 import { Router } from 'express';
-import { prisma } from '../../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
 import { requireAuth, requireCompanyContext } from '../../../../middleware/auth.middleware';
 const router = Router({ mergeParams: true });
 router.use(requireAuth);
