@@ -1,14 +1,13 @@
 {
   "name": "hr-erp-backend",
   "version": "1.0.0",
-  "description": "HR ERP System Backend – Vercel Ready",
+  "description": "HR ERP Backend – Vercel Ready",
   "type": "module",
   "main": "api/index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node api/index.js",
-    "postinstall": "npx prisma generate"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
