@@ -1,5 +1,6 @@
 // src/routes/company/employees/index.route.ts
 import { Router } from 'express';
+import { Prisma } from '@prisma/client';
 import prisma from '../../../lib/prisma.js';
 import { requireAuth, requireCompanyContext } from '../../../middleware/auth.middleware.js';
 
@@ -25,8 +26,8 @@ router.get('/', async (req: any, res) => {
     deletedAt: null,
     ...(search && {
       OR: [
-        { name: { contains: search, mode: 'insensitive' } },
-        { code: { contains: search, mode: 'insensitive' } },
+        { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
+        { code: { contains: search, mode: Prisma.QueryMode.insensitive } },
       ]
     }),
     ...(department && { department }),
@@ -61,3 +62,5 @@ router.post('/', async (req: any, res) => {
 });
 
 export default router;
+
+
