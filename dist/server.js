@@ -33,11 +33,27 @@ async function loadRoutes(dir, base = '') {
             const fileUrl = pathToFileURL(fullPath).href;
             const routeModule = await import(fileUrl);
             const router = routeModule.default || routeModule;
+            // Validate router is a valid Express router
+            if (!router) {
+                throw new Error(`No router exported from ${item.name}`);
+            }
+            if (typeof router !== 'function' && typeof router.use !== 'function') {
+                throw new Error(`Router is not a valid Express router (got ${typeof router})`);
+            }
             app.use(`/api/v1${routePath || ''}`, router);
             console.log(`Loaded → /api/v1${routePath || '/'}`);
         }
         catch (e) {
-            console.error(`Failed to load ${item.name}:`, e.message);
+            // More detailed error logging
+            const errorMsg = e.message || String(e);
+            const errorCode = e.code || 'UNKNOWN';
+            console.error(`❌ Failed to load ${item.name}: ${errorMsg}`);
+            if (errorCode) {
+                console.error(`   Error code: ${errorCode}`);
+            }
+            if (e.stack) {
+                console.error(`   Stack: ${e.stack.split('\n').slice(0, 3).join('\n')}`);
+            }
         }
     }
 }
