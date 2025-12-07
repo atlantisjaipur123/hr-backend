@@ -59,12 +59,26 @@ async function loadRoutes(dir: string, base = '') {
       // More detailed error logging
       const errorMsg = e.message || String(e);
       const errorCode = e.code || 'UNKNOWN';
-      console.error(`❌ Failed to load ${item.name}: ${errorMsg}`);
-      if (errorCode) {
-        console.error(`   Error code: ${errorCode}`);
-      }
-      if (e.stack) {
-        console.error(`   Stack: ${e.stack.split('\n').slice(0, 3).join('\n')}`);
+      
+      // Check if it's a module resolution error
+      if (errorCode === 'ERR_MODULE_NOT_FOUND' || errorMsg.includes('Cannot find module')) {
+        console.error(`❌ Failed to load ${item.name}: Module resolution error`);
+        console.error(`   ${errorMsg}`);
+        if (e.stack) {
+          const stackLines = e.stack.split('\n').filter((line: string) => 
+            line.includes('import') || line.includes('require') || line.includes('at')
+          );
+          console.error(`   ${stackLines.slice(0, 2).join('\n   ')}`);
+        }
+      } else {
+        console.error(`❌ Failed to load ${item.name}: ${errorMsg}`);
+        if (errorCode && errorCode !== 'UNKNOWN') {
+          console.error(`   Error code: ${errorCode}`);
+        }
+        if (e.stack) {
+          const stackLines = e.stack.split('\n').slice(0, 3);
+          console.error(`   ${stackLines.join('\n   ')}`);
+        }
       }
     }
   }
