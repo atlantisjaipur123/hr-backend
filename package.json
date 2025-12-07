@@ -2,11 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "src/server.js",
+  "main": "src/server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
-    "start": "node src/server.ts"
+    "start": "tsx src/server.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
@@ -29,6 +28,6 @@
     "typescript": "^5.9.3"
   },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   }
 }
