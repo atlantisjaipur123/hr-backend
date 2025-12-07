@@ -1,7 +1,7 @@
 // src/routes/superadmin/companies/index.route.ts
 import { Router } from "express";
-import prisma from "../../../lib/prisma";
-import { requireAuth, requireSuperAdmin } from "../../../middleware/auth.middleware";
+import prisma from "../../../lib/prisma.js";
+import { requireAuth, requireSuperAdmin } from "../../../middleware/auth.middleware.js";
 const router = Router();
 router.use(requireAuth);
 router.use(requireSuperAdmin);
