@@ -8,7 +8,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node api/index.js",
-    "vercel-build": "npx prisma generate && npx prisma migrate deploy && tsc",
+    "postinstall": "prisma generate",
+    "vercel-build": "node node_modules/.bin/prisma generate && node node_modules/.bin/prisma migrate deploy && tsc",
     "generate-prisma": "node scripts/generate-prisma.js"
   },
   "dependencies": {
