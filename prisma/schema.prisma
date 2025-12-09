@@ -1142,8 +1142,5 @@ model Backup {
   @@index([companyId, createdAt])
   @@map("backups")
 }
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "./erd"
-}
+
 
