@@ -1,11 +1,10 @@
-// src/server.ts ← FINAL WORKING VERSION (November 2025)
+// src/server.ts ← FINAL WORKING VERSION (December 2025)
 import express from 'express';
 import cors from 'cors';
 import { readdirSync } from 'fs';
 import { resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { pathToFileURL } from 'url';
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = resolve(__filename, '..');
@@ -27,7 +26,6 @@ async function loadRoutes(dir: string, base = '') {
     }
 
     if (!item.name.match(/\.route\.(ts|js)$/)) continue;
-
 
     let routePath = cur
       .replace(/\.route\.ts$/i, '')
@@ -56,18 +54,16 @@ async function loadRoutes(dir: string, base = '') {
       app.use(`/api/v1${routePath || ''}`, router);
       console.log(`Loaded → /api/v1${routePath || '/'}`);
     } catch (e: any) {
-      // More detailed error logging
       const errorMsg = e.message || String(e);
       const errorCode = e.code || 'UNKNOWN';
-      
-      // Check if it's a module resolution error
+
       if (errorCode === 'ERR_MODULE_NOT_FOUND' || errorMsg.includes('Cannot find module')) {
         console.error(`❌ Failed to load ${item.name}: Module resolution error`);
         console.error(`   ${errorMsg}`);
         if (e.stack) {
-          const stackLines = e.stack.split('\n').filter((line: string) => 
-            line.includes('import') || line.includes('require') || line.includes('at')
-          );
+          const stackLines = e.stack
+            .split('\n')
+            .filter((line: string) => line.includes('import') || line.includes('require') || line.includes('at'));
           console.error(`   ${stackLines.slice(0, 2).join('\n   ')}`);
         }
       } else {
@@ -85,6 +81,22 @@ async function loadRoutes(dir: string, base = '') {
 }
 
 loadRoutes(resolve(__dirname, 'routes')).then(() => {
+  // -------------------------------
+  // ✅ TEST ROUTE
+  // -------------------------------
+  app.get('/api/v1/test', (req, res) => {
+    res.json({
+      success: true,
+      message: 'Test route working successfully!',
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  // DEFAULT ROOT ROUTE
   app.get('/', (_, res) => res.json({ message: 'HR ERP Backend – ALL ROUTES WORKING!' }));
-  app.listen(PORT, () => console.log(`\nSERVER RUNNING → http://localhost:${PORT}\n`));
+
+  // START SERVER
+  app.listen(PORT, () => {
+    console.log(`\nSERVER RUNNING → http://localhost:${PORT}\n`);
+  });
 });
