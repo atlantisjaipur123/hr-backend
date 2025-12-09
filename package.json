@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc && cp -r prisma dist/ && prisma generate --schema=./dist/prisma/schema.prisma",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    
+    "vercel-build": "npx --no-install prisma generate && npx --no-install prisma migrate deploy && tsc",
+    
+    "postinstall": "npx --no-install prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
